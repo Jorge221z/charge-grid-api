@@ -1,4 +1,4 @@
-package com.jorge.chargegridapi
+package com.jorge.chargegridapi.station
 
 import jakarta.persistence.*
 
