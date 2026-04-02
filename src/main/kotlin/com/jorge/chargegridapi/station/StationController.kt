@@ -55,5 +55,22 @@ class StationController(
         return ResponseEntity.status(HttpStatus.OK).body(responseDto)
     }
 
+    @GetMapping
+    fun getAllStations(): ResponseEntity<List<StationResponse>> {
+
+        val entities = stationService.getAllStations()
+
+        val dtos: List<StationResponse> = entities.map { station -> StationResponse(
+            id = station.id!!,
+            name = station.name,
+            latitude = station.latitude,
+            longitude = station.longitude,
+            maxPower = station.maxPower,
+            status = station.status
+        )}
+
+        return ResponseEntity.status(HttpStatus.OK).body(dtos)
+    }
+
 
 }

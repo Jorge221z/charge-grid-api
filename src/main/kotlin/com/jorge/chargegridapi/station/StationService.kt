@@ -30,4 +30,8 @@ class StationService(
      return stationRepository.findByIdOrNull(id) ?: throw ResponseStatusException(
          HttpStatus.NOT_FOUND, "Station with ID $id not found") // 404
     }
+
+    fun getAllStations(): List<Station> {
+        return stationRepository.findAll()
+    }
 }
