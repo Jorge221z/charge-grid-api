@@ -13,6 +13,8 @@ class Station(
 
     var longitude: Double = 0.0,
 
+    var maxPower: Double = 0.0,
+
     @Enumerated(EnumType.STRING)
     var status: Status = Status.AVAILABLE
 ) {
