@@ -1,5 +1,6 @@
 package com.jorge.chargegridapi.station
 
+import com.jorge.chargegridapi.chargesession.ChargeSession
 import jakarta.persistence.*
 
 
@@ -16,7 +17,10 @@ class Station(
     var maxPower: Double = 0.0,
 
     @Enumerated(EnumType.STRING)
-    var status: Status = Status.AVAILABLE
+    var status: Status = Status.AVAILABLE,
+
+    @OneToMany(mappedBy = "station", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    val chargeSessions: MutableList<ChargeSession> = mutableListOf()
 ) {
     // Attributes that are auto-generated
     @Id
