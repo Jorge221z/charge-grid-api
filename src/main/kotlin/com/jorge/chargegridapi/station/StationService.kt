@@ -1,7 +1,10 @@
 package com.jorge.chargegridapi.station
 
 import com.jorge.chargegridapi.station.dto.StationCreateRequest
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 
 
 @Service
@@ -21,5 +24,10 @@ class StationService(
         )
 
         return stationRepository.save(newStation)
+    }
+
+    fun getStation(id: Long): Station {
+     return stationRepository.findByIdOrNull(id) ?: throw ResponseStatusException(
+         HttpStatus.NOT_FOUND, "Station with ID $id not found") // 404
     }
 }

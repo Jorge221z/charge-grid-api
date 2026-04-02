@@ -5,8 +5,8 @@ package com.jorge.chargegridapi.station.dto
  * Fields allowed by the backend via HTTP requests
  */
 data class StationCreateRequest(
-    var name: String,
-    var latitude: Double,
-    var longitude: Double,
-    var maxPower: Double,
+    val name: String,
+    val latitude: Double,
+    val longitude: Double,
+    val maxPower: Double,
 )
