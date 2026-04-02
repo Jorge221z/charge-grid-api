@@ -34,4 +34,10 @@ class StationService(
     fun getAllStations(): List<Station> {
         return stationRepository.findAll()
     }
+
+    fun updateStationStatus(id: Long, status: Status): Station {
+        val station = getStation(id)
+        station.status = status
+        return stationRepository.save(station)
+    }
 }

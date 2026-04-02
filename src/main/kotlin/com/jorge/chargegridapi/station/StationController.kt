@@ -2,10 +2,12 @@ package com.jorge.chargegridapi.station
 
 import com.jorge.chargegridapi.station.dto.StationCreateRequest
 import com.jorge.chargegridapi.station.dto.StationResponse
+import com.jorge.chargegridapi.station.dto.StationStatusUpdateRequest
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -71,6 +73,24 @@ class StationController(
 
         return ResponseEntity.status(HttpStatus.OK).body(dtos)
     }
+
+    @PatchMapping("/{id}/status")
+    fun updateStationStatus(@PathVariable id: Long, @Valid @RequestBody request: StationStatusUpdateRequest): ResponseEntity<StationResponse> {
+
+        val station = stationService.updateStationStatus(id, request.status)
+
+        val responseDto = StationResponse(
+            id = station.id!!,
+            name = station.name,
+            latitude = station.latitude,
+            longitude = station.longitude,
+            maxPower = station.maxPower,
+            status = station.status
+        )
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto)
+    }
+
 
 
 }
