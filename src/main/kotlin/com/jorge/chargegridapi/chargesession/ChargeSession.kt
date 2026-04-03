@@ -38,7 +38,8 @@ class ChargeSession(
         val duration = Duration.between(this.startTime, end)
         val hoursElapsed = duration.toMinutes() / 60.0 // e.g. 30 mins = 0.5 hours
 
-        return this.station.maxPower * hoursElapsed // (10 Kw * 0.5 hours) = 5 kWh
+        val rawKwh = this.station.maxPower * hoursElapsed // (10 Kw * 0.5 hours) = 5 kWh
+        return Math.round(rawKwh * 100.0) / 100.0
     }
 }
 
