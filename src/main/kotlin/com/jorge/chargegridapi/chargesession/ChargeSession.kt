@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.time.LocalDateTime
+import java.time.Duration
 
 
 @Entity
@@ -30,5 +31,14 @@ class ChargeSession(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+
+    fun calculatePowerConsumed (): Double {
+
+        val end = this.endTime ?: LocalDateTime.now() // Safer
+        val duration = Duration.between(this.startTime, end)
+        val hoursElapsed = duration.toMinutes() / 60.0 // e.g. 30 mins = 0.5 hours
+
+        return this.station.maxPower * hoursElapsed // (10 Kw * 0.5 hours) = 5 kWh
+    }
 }
 
