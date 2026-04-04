@@ -4,6 +4,7 @@ import com.jorge.chargegridapi.station.dto.StationCreateRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ResponseStatusException
 
 
@@ -26,6 +27,7 @@ class StationService(
         return stationRepository.save(newStation)
     }
 
+    @Transactional(readOnly = true) // Keep the DB connection open for this entire process
     fun getStation(id: Long): Station {
      return stationRepository.findByIdOrNull(id) ?: throw ResponseStatusException(
          HttpStatus.NOT_FOUND, "Station with ID $id not found") // 404

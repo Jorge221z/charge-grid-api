@@ -1,6 +1,9 @@
 package com.jorge.chargegridapi.station
 
+import com.jorge.chargegridapi.chargesession.dto.ChargeSessionResponse
+import com.jorge.chargegridapi.chargesession.dto.ChargeSessionSummaryResponse
 import com.jorge.chargegridapi.station.dto.StationCreateRequest
+import com.jorge.chargegridapi.station.dto.StationDetailResponse
 import com.jorge.chargegridapi.station.dto.StationResponse
 import com.jorge.chargegridapi.station.dto.StationStatusUpdateRequest
 import jakarta.validation.Valid
@@ -41,17 +44,28 @@ class StationController(
 
 
     @GetMapping("/{id}")
-    fun getStation(@Valid @PathVariable id: Long): ResponseEntity<StationResponse> {
+    fun getStationDetail(@Valid @PathVariable id: Long): ResponseEntity<StationDetailResponse> {
 
         val savedStation = stationService.getStation(id)
 
-        val responseDto = StationResponse(
+        // More predictable and performant behavior than Spring with this functional loop
+        val sessionSummaries = savedStation.chargeSessions.map { session ->
+            ChargeSessionSummaryResponse(
+                id = session.id!!,
+                startTime = session.startTime,
+                endTime = session.endTime,
+                kwhConsumed = session.kwhConsumed,
+            )
+        }
+
+        val responseDto = StationDetailResponse(
             id = savedStation.id!!,
             name = savedStation.name,
             latitude = savedStation.latitude,
             longitude = savedStation.longitude,
             maxPower = savedStation.maxPower,
-            status = savedStation.status
+            status = savedStation.status,
+            recentSessions = sessionSummaries // Plug the list in
         )
 
         return ResponseEntity.status(HttpStatus.OK).body(responseDto)
