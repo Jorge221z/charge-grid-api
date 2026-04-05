@@ -21,17 +21,28 @@ repositories {
 }
 
 dependencies {
+    // --- Main Application Dependencies ---
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("tools.jackson.module:jackson-module-kotlin")
     runtimeOnly("org.postgresql:postgresql")
-    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
+
+    // --- Testing Dependencies ---
+    // 1. The one Spring Boot test starter to rule them all
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // 2. The Kotlin testing standard
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // 3. MockK for mocking Kotlin classes
+    testImplementation("io.mockk:mockk:1.13.10")
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
+
+    // 4. H2 Database for offline, battery-friendly testing
+    testRuntimeOnly("com.h2database:h2")
 }
 
 kotlin {
