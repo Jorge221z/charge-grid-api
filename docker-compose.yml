@@ -10,6 +10,29 @@ services:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
+    networks:
+      - chargegrid_network
+
+  api:
+    build: . # Tells Docker Compose to look for the Dockerfile in this directory
+    container_name: chargegrid-api
+    ports:
+      - "8080:8080" # Maps the VPS port 8080 to the container port 8080
+    environment:
+      # This overrides the url in your application.yml to point to the postgres container!
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/chargegrid_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+      # Useful for Spring Boot to know it's in production
+      SPRING_PROFILES_ACTIVE: prod
+    depends_on:
+      - postgres # Ensures the database starts before the API
+    networks:
+      - chargegrid_network
 
 volumes:
   pg_data:
+
+networks:
+  chargegrid_network:
+    driver: bridge
