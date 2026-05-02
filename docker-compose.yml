@@ -25,6 +25,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: password
       # Useful for Spring Boot to know it's in production
       SPRING_PROFILES_ACTIVE: prod
+      # Create entities
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on:
       - postgres # Ensures the database starts before the API
     networks:
