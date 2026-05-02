@@ -5,8 +5,12 @@ FROM amazoncorretto:21-alpine
 WORKDIR /app
 
 # Copy the Fat JAR from your build folder into the container
-# (Make sure the name matches the actual file in build/libs/)
-COPY build/libs/chargegrid-api-0.0.1-SNAPSHOT.jar app.jar
+# Local environment
+COPY build/libs/charge-grid-api-0.0.1-SNAPSHOT.jar app.jar
+# Production environment
+#COPY charge-grid-api-0.0.1-SNAPSHOT.jar app.jar
+
+
 
 # Expose the port Spring Boot runs on
 EXPOSE 8080
